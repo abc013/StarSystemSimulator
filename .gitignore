@@ -1,0 +1,55 @@
+﻿# Generic files
+/runtimes
+/.vs
+/StarSystemSimulator/obj
+/obj
+/StarSystemSimulator/StarSystemSimulator.csproj.user
+/StarSystemSimulator.csproj.user
+
+# Output
+/StarSystemSimulator.dll
+/StarSystemSimulator.exe
+/StarSystemSimulator.pdb
+/StarSystemSimulator.deps.json
+/StarSystemSimulator.runtimeconfig.dev.json
+/StarSystemSimulator.runtimeconfig.json
+
+# Packages, fetched via NuGet
+/OpenTK.*.dll
+/libglfw.so.3.3
+/glfw3-x86.dll
+/glfw3-x64.dll
+/ImGui.NET.dll
+# Ignore further generated dlls
+/WindowsBase.dll
+/ucrtbase.dll
+/System.dll
+/System.*.dll
+/SOS_README.md
+/netstandard.dll
+/mscor*.dll
+/Microsoft.*.dll
+/hostpolicy.dll
+/hostfxr.dll
+/glfw3.dll
+/dbgshim.dll
+/coreclr.dll
+/clrjit.dll
+/clretwrc.dll
+/clrcompression.dll
+/cimgui.dll
+/api-ms-win-crt-*.dll
+/api-ms-win-core-*.dll
+
+# Outputs generated from the program
+/exception.log
+/information.log
+# Settings file, specific settings for every user
+/settings.txt
+# Ignore screenshots
+/Screenshots
+# Ignore packaging output
+/publish_win-x64
+# Ignore imgui config/log files
+/imgui.ini
+/imgui_log.txt

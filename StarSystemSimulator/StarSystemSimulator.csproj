@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutDir>../</OutDir>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.78.0" />
+    <PackageReference Include="OpenTK" Version="4.6.4" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <!-- for publishing -->
+  <ItemGroup>
+    <ResolvedFileToPublish Include="..\README.md">
+      <RelativePath>README.md</RelativePath>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </ResolvedFileToPublish>
+    <ResolvedFileToPublish Include="..\LICENSE">
+      <RelativePath>LICENSE</RelativePath>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </ResolvedFileToPublish>
+    <ResolvedFileToPublish Include="..\Systems\**\*">
+      <RelativePath>Shaders/%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </ResolvedFileToPublish>
+    <ResolvedFileToPublish Include="..\Shaders\**\*">
+      <RelativePath>Shaders/%(RecursiveDir)%(Filename)%(Extension)</RelativePath>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </ResolvedFileToPublish>
+  </ItemGroup>
+</Project>
