@@ -34,6 +34,7 @@ namespace StarSystemSimulator.Graphics
 			GL.ClearColor(Color4.Black);
 
 			GL.Enable(EnableCap.Blend);
+			GL.Enable(EnableCap.DepthTest);
 			GL.LineWidth(2f);
 
 			PointRenderable.Load();

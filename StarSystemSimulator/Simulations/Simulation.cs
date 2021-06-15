@@ -14,7 +14,7 @@ namespace StarSystemSimulator.Simulations
 
 		public Simulation()
 		{
-			Objects.AddRange(strangeSystem());
+			Objects.AddRange(asteroids());
 		}
 
 		public void Tick()
@@ -94,11 +94,17 @@ namespace StarSystemSimulator.Simulations
 			};
 		}
 
-		static List<MassObject> asteroids()
+		static List<MassObject> asteroids(int count = 300)
 		{
 			var list = new List<MassObject>
 			{
-				new MassObject(msun * 0.4, 30 / 100f, "Sun")
+				new MassObject(msun * 1.4, .03f, "Distractor")
+				{
+					Color = Color4.WhiteSmoke,
+					Location = new Vector3(150 * au, -100 * au, 0),
+					Velocity = new Vector3(-4 * au, 2 * au, 0)
+				},
+				new MassObject(msun, 40 / 100f, "Sun")
 				{
 					Color = Color4.Yellow
 				}
@@ -106,20 +112,25 @@ namespace StarSystemSimulator.Simulations
 
 			var random = new Random();
 
-			const double m = (0.05f * mmoon) / 45;
-			for (int i = 0; i < 20; i++)
+			const double m = 0.005f * mmoon;
+			for (int i = 0; i < count; i++)
 			{
 				const float fullAngle = 2 * MathF.PI;
+				var angle = (float)(random.NextDouble() * fullAngle);
 
-				var x = MathF.Sin(i * 8);
-				var y = MathF.Cos(i * 8);
-				var dist = dmars + (random.Next(5) / 3f) * au;
+				var dist = djupiter + (random.Next(200) - 100) / 200f * au;
+				var x = MathF.Sin(angle) * dist;
+				var y = MathF.Cos(angle) * dist;
+
+				var revolution = (fullAngle * dist) / (tjyear * dist / djupiter);
+				var xSpeed = MathF.Sin(angle + fullAngle / 4) * revolution;
+				var ySpeed = MathF.Cos(angle + fullAngle / 4) * revolution;
 
 				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}")
 				{
 					Color = Color4.DarkGray,
-					Location = new Vector3(x * dist, y * dist, 0),
-					Velocity = new Vector3(y * (fullAngle * dist) / (tmyear * 4f), x * (fullAngle * dist) / (tmyear * 4f), 0)
+					Location = new Vector3(x, y, 0),
+					Velocity = new Vector3(xSpeed, ySpeed, 0)
 				});
 			}
 

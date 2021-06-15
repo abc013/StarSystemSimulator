@@ -369,6 +369,7 @@ void main()
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 
 			GL.Disable(EnableCap.ScissorTest);
+			GL.Enable(EnableCap.DepthTest);
 
 			GL.BindVertexArray(0);
 		}
