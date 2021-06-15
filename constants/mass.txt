@@ -1,0 +1,7 @@
+# Mass given in grams
+moon=7.342e25
+earth=5.97219e27
+sun=1.989e33
+mars=6.419e26
+jupiter=1.8982e30
+saturn=1.8982e30

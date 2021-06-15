@@ -1,0 +1,5 @@
+# Time given in years
+earth_revolution=1
+jupiter_revolution=11.862
+saturn_revolution=29.4571
+mars_revolution=1.880824093

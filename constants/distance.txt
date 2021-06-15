@@ -1,0 +1,8 @@
+# Distance given in centimeter
+au=1.495978707e13
+earth_radius=6.371e8
+mars=2.2798715494680e13
+jupiter=7.7856715827108e13
+saturn=14.3353655576982e13
+moon_to_earth=3.844e10
+

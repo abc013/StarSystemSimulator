@@ -19,10 +19,8 @@ namespace StarSystemSimulator.Graphics
 		{
 			// Load the shader
 			var program = new ShaderProgram(name);
-			var files = FileManager.GetGraphShaders(name);
-
-			foreach (var file in files)
-				program.AddShader(file.EndsWith(".frag") ? ShaderType.FragmentShader : ShaderType.VertexShader, file);
+			program.AddShader(ShaderType.FragmentShader, FileManager.GraphShaders + name + ".frag");
+			program.AddShader(ShaderType.VertexShader, FileManager.GraphShaders + name + ".vert");
 			program.Link();
 
 			// Check for any GL errors.
