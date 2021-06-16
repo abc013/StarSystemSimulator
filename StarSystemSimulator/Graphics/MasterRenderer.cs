@@ -4,6 +4,13 @@ using StarSystemSimulator.Simulations;
 
 namespace StarSystemSimulator.Graphics
 {
+	public enum PolygonMode
+	{
+		Fill = 6914,
+		Line = 6913,
+		Point = 6912
+	}
+
 	/// <summary>
 	/// Master class dedicated to controlling the interaction with GL.
 	/// For more information about how GL works, visit https://glumpy.github.io/modern-gl.html.
@@ -45,6 +52,11 @@ namespace StarSystemSimulator.Graphics
 			crosshair2 = new Point(new Vector3(0, 0, -0.000001f), Color4.White);
 
 			Utils.CheckError("Load");
+		}
+
+		public static void SetPolygonMode(PolygonMode mode)
+		{
+			GL.PolygonMode(MaterialFace.FrontAndBack, (OpenTK.Graphics.OpenGL.PolygonMode)mode);
 		}
 
 		public static void SetShader(string name, bool @default = false)

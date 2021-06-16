@@ -14,7 +14,9 @@ namespace StarSystemSimulator.Graphics
 
 		public static void Render()
 		{
+			MasterRenderer.SetPolygonMode(PolygonMode.Line);
 			renderable.Render();
+			MasterRenderer.SetPolygonMode(PolygonMode.Fill);
 		}
 
 		public static void Dispose()
@@ -24,15 +26,25 @@ namespace StarSystemSimulator.Graphics
 
 		static Vector[] getVectors(Vector3 position, Color4 color, float size = 1f)
 		{
-			return new[]
+			const int horizontalLines = 12;
+			const int verticalLines = 12;
+
+			// from https://stackoverflow.com/a/47416720
+			var vertices = new Vector[horizontalLines * verticalLines];
+
+			int index = 0;
+			for (int m = 0; m < horizontalLines; m++)
 			{
-				new Vector(new Vector4(position + new Vector3(-size, -size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(-size, size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(size, -size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(size, -size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(-size, size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(size, size, 0), 1.0f), color, Vector2.Zero),
-			};
+				for (int n = 0; n < verticalLines - 1; n++)
+				{
+					float x = MathF.Sin(MathF.PI * m / horizontalLines) * MathF.Cos(2 * MathF.PI * n / verticalLines);
+					float y = MathF.Sin(MathF.PI * m / horizontalLines) * MathF.Sin(2 * MathF.PI * n / verticalLines);
+					float z = MathF.Cos(MathF.PI * m / horizontalLines);
+					vertices[index++] = new Vector(new Vector4(position + new Vector3(x, y, z) * size, 1.0f), color, Vector2.Zero);
+				}
+			}
+
+			return vertices;
 		}
 	}
 }

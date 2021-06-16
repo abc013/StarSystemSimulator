@@ -109,7 +109,13 @@ namespace StarSystemSimulator
 
 		public void CalculateMatrix()
 		{
-			objectMatrix = Matrix4.CreateScale((Settings.SizeBasedOnMass ? sizeBasedOnMass : size) * Settings.ObjectScaleFator) * Matrix4.CreateTranslation(Location);
+			var scale = Matrix4.CreateScale((Settings.SizeBasedOnMass ? sizeBasedOnMass : size) * Settings.ObjectScaleFator);
+			var rotX = Matrix4.CreateRotationX(Velocity.X);
+			var rotY = Matrix4.CreateRotationX(Velocity.X);
+			var rotZ = Matrix4.CreateRotationX(Velocity.X);
+			var loc = Matrix4.CreateTranslation(Location);
+
+			objectMatrix = scale * rotX * rotY * rotZ * loc;
 		}
 
 		public void Render()
