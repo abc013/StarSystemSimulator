@@ -13,7 +13,7 @@ namespace StarSystemSimulator.Graphics
 		public const int ColorID = 1;
 		public const int TexCoordID = 2;
 
-		const int uniformCount = 5;
+		const int uniformCount = 4;
 
 		readonly int[] ids;
 
@@ -26,10 +26,9 @@ namespace StarSystemSimulator.Graphics
 
 			// Get the uniform locations. The call returns -1 if the uniform variable is not used in the shader.
 			ids[0] = GL.GetUniformLocation(programID, "location");
-			ids[1] = GL.GetUniformLocation(programID, "scale");
-			ids[2] = GL.GetUniformLocation(programID, "projection");
-			ids[3] = GL.GetUniformLocation(programID, "modelView");
-			ids[4] = GL.GetUniformLocation(programID, "modelColor");
+			ids[1] = GL.GetUniformLocation(programID, "projection");
+			ids[2] = GL.GetUniformLocation(programID, "modelView");
+			ids[3] = GL.GetUniformLocation(programID, "modelColor");
 
 			Utils.CheckError("UniformManager1 " + name);
 
@@ -49,9 +48,6 @@ namespace StarSystemSimulator.Graphics
 			if (ids[0] >= 0)
 				GL.Uniform2(ids[0], Camera.Location.Xy);
 
-			if (ids[1] >= 0)
-				GL.Uniform1(ids[1], Camera.Scale);
-
 			UniformProjection(Camera.CameraMatrix);
 			UniformModelView(Camera.IdentityMatrix);
 			UniformColor(Color4.White);
@@ -64,8 +60,8 @@ namespace StarSystemSimulator.Graphics
 		/// </summary>
 		public void UniformProjection(Matrix4 matrix)
 		{
-			if (ids[2] >= 0)
-				GL.UniformMatrix4(ids[2], false, ref matrix);
+			if (ids[1] >= 0)
+				GL.UniformMatrix4(ids[1], false, ref matrix);
 		}
 
 		/// <summary>
@@ -75,8 +71,8 @@ namespace StarSystemSimulator.Graphics
 		/// </summary>
 		public void UniformModelView(Matrix4 objectMatrix)
 		{
-			if (ids[3] >= 0)
-				GL.UniformMatrix4(ids[3], false, ref objectMatrix);
+			if (ids[2] >= 0)
+				GL.UniformMatrix4(ids[2], false, ref objectMatrix);
 		}
 
 		/// <summary>
@@ -86,8 +82,8 @@ namespace StarSystemSimulator.Graphics
 		/// </summary>
 		public void UniformColor(Color4 color)
 		{
-			if (ids[4] >= 0)
-				GL.Uniform4(ids[4], color);
+			if (ids[3] >= 0)
+				GL.Uniform4(ids[3], color);
 		}
 	}
 }

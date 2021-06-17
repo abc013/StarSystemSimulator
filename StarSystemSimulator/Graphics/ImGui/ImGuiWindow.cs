@@ -168,30 +168,25 @@ namespace StarSystemSimulator.Graphics
 				var posChanged = false;
 				var x = Camera.Location.X;
 				var y = Camera.Location.Y;
+				var z = Camera.Location.Z;
 
 				ImGui.Text("Location");
-				helpButton("Hotkeys: [Arrows]");
+				helpButton("Hotkeys: [Arrows, Mouse wheel]");
 
 				posChanged |= ImGui.InputFloat("X", ref x, Camera.RelativeSpeed, Camera.RelativeSpeed * 5);
 				posChanged |= ImGui.InputFloat("Y", ref y, Camera.RelativeSpeed, Camera.RelativeSpeed * 5);
+				posChanged |= ImGui.InputFloat("Z", ref z, Camera.RelativeSpeed, Camera.RelativeSpeed * 5);
 
 				if (posChanged)
 				{
-					Camera.SetTranslation(x, y, 0);
+					Camera.SetTranslation(x, y, z);
 					SimulationManager.ClearFollowObject();
 				}
-
-				var s = Camera.Scale;
-
-				ImGui.Text("Scale");
-
-				if (ImGui.InputFloat("S", ref s, .1f, .2f))
-					Camera.SetScale(s);
 
 				ImGui.NewLine();
 				ImGui.Text("Camera Speed");
 				helpButton("Determines how fast the viewport is moved around by pressing keys.");
-				ImGui.SliderFloat("C-Speed", ref Settings.CameraSpeed, 0.001f, .02f, "%.3f");
+				ImGui.SliderFloat("C-Speed", ref Settings.CameraSpeed, 0.001f, .1f, "%.3f");
 			}
 		
 			lastMS.Enqueue(lastms);

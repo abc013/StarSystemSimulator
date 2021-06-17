@@ -5,8 +5,6 @@ in vec4 vs_color;
 in vec2 vs_texCoord;
 
 uniform vec2 location;
-uniform float scale;
-uniform int imax;
 
 out vec4 color;
 

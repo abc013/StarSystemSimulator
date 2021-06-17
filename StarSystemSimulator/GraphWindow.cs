@@ -7,6 +7,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.ComponentModel;
 using System.Diagnostics;
 using StarSystemSimulator.Simulations;
+using System;
 
 namespace StarSystemSimulator
 {
@@ -209,11 +210,10 @@ namespace StarSystemSimulator
 		/// </summary>
 		Vector3 getCursorLocation()
 		{
+			// TODO does not work anymore !!
 			var screenX = (MousePosition.X / ClientSize.X) * 4 - 2;
 			var screenY = (MousePosition.Y / ClientSize.Y) * 4 - 2;
 			screenX *= Camera.Ratio;
-			screenX /= Camera.Scale;
-			screenY /= -Camera.Scale;
 			screenX += Camera.Location.X;
 			screenY += Camera.Location.Y;
 
@@ -228,7 +228,7 @@ namespace StarSystemSimulator
 			if (ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow))
 				return;
 
-			Camera.Scaling(e.OffsetY * 0.1f);
+			Camera.Translate(0, 0, (int)(e.OffsetY * 32));
 		}
 
 		protected override void OnTextInput(TextInputEventArgs e)

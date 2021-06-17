@@ -7,7 +7,7 @@ namespace StarSystemSimulator.Graphics
 	/// </summary>
 	public static class Camera
 	{
-		public static float RelativeSpeed => Settings.CameraSpeed / Scale;
+		public static float RelativeSpeed => Settings.CameraSpeed;
 
 		public static readonly Matrix4 IdentityMatrix = Matrix4.Identity;
 		public static Matrix4 CameraMatrix;
@@ -21,14 +21,11 @@ namespace StarSystemSimulator.Graphics
 
 		public static Vector3 Location { get; private set; }
 
-		public static float Scale { get; private set; }
-
 		public static bool Changed { get; private set; }
 
 		public static void Load()
 		{
 			Location = new Vector3(Settings.LocationX, Settings.LocationY, Settings.LocationZ);
-			Scale = Settings.Scale;
 			Changed = true;
 
 			ResizeViewport(Settings.GraphWidth, Settings.GraphHeight);
@@ -37,12 +34,6 @@ namespace StarSystemSimulator.Graphics
 		public static void SetTranslation(float x, float y, float z)
 		{
 			Location = new Vector3(x, y, z);
-			Changed = true;
-		}
-
-		public static void SetScale(float s)
-		{
-			Scale = s;
 			Changed = true;
 		}
 
@@ -55,12 +46,6 @@ namespace StarSystemSimulator.Graphics
 			var speed = RelativeSpeed;
 			Location += new Vector3(x * speed, y * speed, z * speed);
 
-			Changed = true;
-		}
-
-		public static void Scaling(float s)
-		{
-			Scale += s * Scale;
 			Changed = true;
 		}
 
@@ -77,13 +62,11 @@ namespace StarSystemSimulator.Graphics
 
 			Changed = false;
 
+			var matrix = Matrix4.CreatePerspectiveFieldOfView(0.75f, Ratio, 0.1f, 100f);
+
 			var locMatrix = Matrix4.CreateTranslation(new Vector3(-Location.X, -Location.Y, Location.Z));
 
-			var scale = Scale / 2f;
-			ScaleMatrix = Matrix4.CreateScale(scale / Ratio, scale, 0);
-			InverseScaleMatrix = Matrix4.CreateScale(1 / scale);
-
-			CameraMatrix = locMatrix * ScaleMatrix;
+			CameraMatrix = locMatrix * matrix;
 		}
 	}
 }
