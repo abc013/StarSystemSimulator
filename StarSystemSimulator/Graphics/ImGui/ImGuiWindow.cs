@@ -26,7 +26,7 @@ namespace StarSystemSimulator.Graphics
 			showDialog = Settings.ShowWelcomeDialog;
 		}
 
-		public void ShowWindow(long lastms, Vector3d cursorLocation)
+		public void ShowWindow(long lastms)
 		{
 			if (firstTick && Settings.AutoResizeWindow)
 			{
@@ -122,7 +122,8 @@ namespace StarSystemSimulator.Graphics
 			}
 			if (ImGui.CollapsingHeader("Point settings"))
 			{
-				ImGui.Checkbox("Show points", ref Settings.Points);
+				ImGui.TextColored(new System.Numerics.Vector4(1f, 0, 0, 1f), "Points are currently not available.");
+				/*ImGui.Checkbox("Show points", ref Settings.Points);
 				if (ImGui.TreeNode("Points"))
 				{
 					var points = PointManager.Points;
@@ -161,7 +162,7 @@ namespace StarSystemSimulator.Graphics
 					var c = new System.Numerics.Vector4(Utils.StandardColor.R, Utils.StandardColor.G, Utils.StandardColor.B, Utils.StandardColor.A);
 					if (ImGui.ColorPicker4("Color", ref c))
 						Utils.StandardColor = new Color4(c.X, c.Y, c.Z, c.W);
-				}
+				}*/
 			}
 			if (ImGui.CollapsingHeader("Viewport settings"))
 			{
@@ -219,17 +220,17 @@ namespace StarSystemSimulator.Graphics
 			}
 
 			ImGui.NewLine();
-			if (ImGui.Button("Add Point at current position", new System.Numerics.Vector2(ImGui.GetWindowContentRegionWidth(), 20)))
-				PointManager.Add(Camera.Location, Utils.GetColor());
+			//if (ImGui.Button("Add Point at current position", new System.Numerics.Vector2(ImGui.GetWindowContentRegionWidth(), 20)))
+			//	PointManager.Add(Camera.Location, Utils.GetColor());
 
 			if (ImGui.Button("Take Screenshot", new System.Numerics.Vector2(ImGui.GetWindowContentRegionWidth(), 20)))
 				window.DoScreenshot();
 
 			ImGui.Checkbox("Show UI in Screenshot", ref Settings.ScreenshotUI);
 
-			ImGui.NewLine();
-			const string str = "00.000000000000";
-			ImGui.Text($"cursor at\n{cursorLocation.X.ToString(str)}\n{cursorLocation.Y.ToString(str)}");
+			//ImGui.NewLine();
+			//const string str = "00.000000000000";
+			//ImGui.Text($"cursor at\n{cursorLocation.X.ToString(str)}\n{cursorLocation.Y.ToString(str)}");
 
 			ImGui.End();
 

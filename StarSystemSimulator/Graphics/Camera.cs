@@ -62,7 +62,7 @@ namespace StarSystemSimulator.Graphics
 
 			Changed = false;
 
-			var matrix = Matrix4.CreatePerspectiveFieldOfView(0.75f, Ratio, 0.1f, 100f);
+			var matrix = Matrix4.CreatePerspectiveFieldOfView(0.75f, Ratio, 0.1f, 200f);
 
 			var locMatrix = Matrix4.CreateTranslation(new Vector3(-Location.X, -Location.Y, Location.Z));
 

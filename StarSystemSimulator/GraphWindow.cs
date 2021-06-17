@@ -7,7 +7,6 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.ComponentModel;
 using System.Diagnostics;
 using StarSystemSimulator.Simulations;
-using System;
 
 namespace StarSystemSimulator
 {
@@ -88,7 +87,7 @@ namespace StarSystemSimulator
 		}
 
 		long lastms;
-		Vector3 cursorLocation;
+		//Vector3 cursorLocation;
 
 		/// <summary>
 		/// Render frame, which renders the whole window.
@@ -97,13 +96,13 @@ namespace StarSystemSimulator
 		{
 			watch.Start();
 
-			if (Camera.Changed)
-				cursorLocation = getCursorLocation();
+			//if (Camera.Changed)
+			//	cursorLocation = getCursorLocation();
 
 			base.OnRenderFrame(args);
 			MasterRenderer.RenderFrame();
 
-			window.ShowWindow(lastms, cursorLocation);
+			window.ShowWindow(lastms);
 
 			// Without UI, since it isn't rendered yet
 			if (screenshot && !Settings.ScreenshotUI)
@@ -186,6 +185,8 @@ namespace StarSystemSimulator
 			if (ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow))
 				return;
 
+			// TODO: does not work anymore!
+			/*
 			if (e.Button == MouseButton.Right)
 				PointManager.Add(cursorLocation, Utils.GetColor());
 			else if (e.Button == MouseButton.Left)
@@ -194,9 +195,11 @@ namespace StarSystemSimulator
 				SimulationManager.ClearFollowObject();
 
 				MousePosition = new Vector2(Bounds.HalfSize.X, Bounds.HalfSize.Y);
-			}
+			}*/
 		}
 
+		// TODO does not work anymore !!
+		/*
 		/// <summary>
 		/// Updates the cursor location.
 		/// </summary>
@@ -210,7 +213,6 @@ namespace StarSystemSimulator
 		/// </summary>
 		Vector3 getCursorLocation()
 		{
-			// TODO does not work anymore !!
 			var screenX = (MousePosition.X / ClientSize.X) * 4 - 2;
 			var screenY = (MousePosition.Y / ClientSize.Y) * 4 - 2;
 			screenX *= Camera.Ratio;
@@ -218,7 +220,7 @@ namespace StarSystemSimulator
 			screenY += Camera.Location.Y;
 
 			return new Vector3(screenX, screenY, 0);
-		}
+		}*/
 
 		/// <summary>
 		/// Scales when the mouse wheel is used.
