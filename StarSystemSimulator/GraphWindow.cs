@@ -198,16 +198,24 @@ namespace StarSystemSimulator
 			}*/
 		}
 
-		// TODO does not work anymore !!
-		/*
+
 		/// <summary>
 		/// Updates the cursor location.
 		/// </summary>
 		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
-			cursorLocation = getCursorLocation();
+			if (MouseState.IsButtonDown(MouseButton.Middle))
+			{
+				var dx = e.DeltaX;
+				var dy = e.DeltaY;
+
+				Camera.Rotate(dx, dy);
+			}
+			//cursorLocation = getCursorLocation();
 		}
 
+		// TODO does not work anymore !!
+		/*
 		/// <summary>
 		/// Calculates the cursor location from screen to virtual space.
 		/// </summary>

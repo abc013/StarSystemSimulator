@@ -174,9 +174,9 @@ namespace StarSystemSimulator.Graphics
 				ImGui.Text("Location");
 				helpButton("Hotkeys: [Arrows, Mouse wheel]");
 
-				posChanged |= ImGui.InputFloat("X", ref x, Camera.RelativeSpeed, Camera.RelativeSpeed * 5);
-				posChanged |= ImGui.InputFloat("Y", ref y, Camera.RelativeSpeed, Camera.RelativeSpeed * 5);
-				posChanged |= ImGui.InputFloat("Z", ref z, Camera.RelativeSpeed, Camera.RelativeSpeed * 5);
+				posChanged |= ImGui.InputFloat("X", ref x, Camera.MovementSpeed, Camera.MovementSpeed * 5);
+				posChanged |= ImGui.InputFloat("Y", ref y, Camera.MovementSpeed, Camera.MovementSpeed * 5);
+				posChanged |= ImGui.InputFloat("Z", ref z, Camera.MovementSpeed, Camera.MovementSpeed * 5);
 
 				if (posChanged)
 				{
@@ -184,10 +184,30 @@ namespace StarSystemSimulator.Graphics
 					SimulationManager.ClearFollowObject();
 				}
 
+				ImGui.Text("Camera Movement Speed");
+				helpButton("Determines how fast the viewport is moved around.");
+				ImGui.SliderFloat("M-Speed", ref Settings.CameraMovementSpeed, 0.001f, .1f, "%.3f");
+
 				ImGui.NewLine();
-				ImGui.Text("Camera Speed");
-				helpButton("Determines how fast the viewport is moved around by pressing keys.");
-				ImGui.SliderFloat("C-Speed", ref Settings.CameraSpeed, 0.001f, .1f, "%.3f");
+
+				var rotChanged = false;
+				var rx = Camera.EulerRotation.X;
+				var ry = Camera.EulerRotation.Y;
+				var rz = Camera.EulerRotation.Z;
+
+				ImGui.Text("Rotation");
+				helpButton("Uses: [Pressed mouse wheel + mouse movement]");
+
+				rotChanged |= ImGui.InputFloat("rX", ref rx, Camera.RotationSpeed, Camera.RotationSpeed * 5);
+				rotChanged |= ImGui.InputFloat("rY", ref ry, Camera.RotationSpeed, Camera.RotationSpeed * 5);
+				rotChanged |= ImGui.InputFloat("rZ", ref rz, Camera.RotationSpeed, Camera.RotationSpeed * 5);
+
+				if (rotChanged)
+					Camera.SetRotation(rx, ry, rz);
+
+				ImGui.Text("Camera Rotation Speed");
+				helpButton("Determines how fast the viewport is rotated around.");
+				ImGui.SliderFloat("R-Speed", ref Settings.CameraRotationSpeed, 0.001f, .1f, "%.3f");
 			}
 		
 			lastMS.Enqueue(lastms);

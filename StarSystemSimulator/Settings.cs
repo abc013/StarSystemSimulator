@@ -69,9 +69,14 @@ namespace StarSystemSimulator
 		public static string StandardColor = "#ffffffff";
 
 		/// <summary>
-		/// Allows modification of the camera speed.
+		/// Allows modification of the camera movement speed.
 		/// </summary>
-		public static float CameraSpeed = 0.01f;
+		public static float CameraMovementSpeed = 0.01f;
+
+		/// <summary>
+		/// Allows modification of the camera rotation speed.
+		/// </summary>
+		public static float CameraRotationSpeed = 0.01f;
 
 		/// <summary>
 		/// Default scale.
