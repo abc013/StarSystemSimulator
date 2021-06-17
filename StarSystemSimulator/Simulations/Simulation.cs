@@ -116,6 +116,27 @@ namespace StarSystemSimulator.Simulations
 				});
 			}
 
+			for (int i = 0; i < count; i++)
+			{
+				const float fullAngle = 2 * MathF.PI;
+				var angle = (float)(random.NextDouble() * fullAngle);
+
+				var dist = Distance.Get("jupiter") + (random.Next(200) - 100) / 200f * Distance.Get("au");
+				var y = MathF.Sin(angle) * dist;
+				var z = MathF.Cos(angle) * dist;
+
+				var revolution = (fullAngle * dist) / (Time.Get("jupiter_revolution") * dist / Distance.Get("jupiter"));
+				var ySpeed = MathF.Sin(angle + fullAngle / 4) * revolution;
+				var zSpeed = MathF.Cos(angle + fullAngle / 4) * revolution;
+
+				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}")
+				{
+					Color = Color4.DarkGray,
+					Location = new Vector3(0, y, z),
+					Velocity = new Vector3(0, ySpeed, zSpeed)
+				});
+			}
+
 			return list;
 		}
 
