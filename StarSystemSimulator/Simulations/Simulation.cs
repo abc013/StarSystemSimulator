@@ -108,7 +108,7 @@ namespace StarSystemSimulator.Simulations
 				var xSpeed = MathF.Sin(angle + fullAngle / 4) * revolution;
 				var ySpeed = MathF.Cos(angle + fullAngle / 4) * revolution;
 
-				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}")
+				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}, orbit A")
 				{
 					Color = Color4.DarkGray,
 					Location = new Vector3(x, y, 0),
@@ -129,7 +129,7 @@ namespace StarSystemSimulator.Simulations
 				var ySpeed = MathF.Sin(angle + fullAngle / 4) * revolution;
 				var zSpeed = MathF.Cos(angle + fullAngle / 4) * revolution;
 
-				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}")
+				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}, orbit B")
 				{
 					Color = Color4.DarkGray,
 					Location = new Vector3(0, y, z),

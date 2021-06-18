@@ -79,6 +79,11 @@ namespace StarSystemSimulator
 		public static float CameraRotationSpeed = 0.01f;
 
 		/// <summary>
+		/// Allows modification of the camera zoom speed.
+		/// </summary>
+		public static float CameraZoomSpeed = 0.1f;
+
+		/// <summary>
 		/// Default scale.
 		/// </summary>
 		public static float Scale = 2f;

@@ -9,18 +9,18 @@ namespace StarSystemSimulator.Graphics
 	{
 		public static float MovementSpeed => Settings.CameraMovementSpeed;
 		public static float RotationSpeed => Settings.CameraRotationSpeed;
+		public static float ZoomSpeed => Settings.CameraZoomSpeed;
 
 		public static readonly Matrix4 IdentityMatrix = Matrix4.Identity;
 		public static Matrix4 CameraMatrix;
 		public static Matrix4 ScaleMatrix;
 		public static Matrix4 InverseScaleMatrix;
 
-		/// <summary>
-		/// Window ratio.
-		/// </summary>
 		public static float Ratio { get; private set; }
 
 		public static Vector3 Location { get; private set; }
+
+		public static float CurrentZoom { get; private set; }
 
 		public static Vector3 EulerRotation;
 		static Quaternion rotation;
@@ -49,10 +49,12 @@ namespace StarSystemSimulator.Graphics
 			Changed = true;
 		}
 
-		/// <summary>
-		/// Move in the specified directions. The values will be multiplied by the camera speed as well.
-		/// In order to allow movement in deeper regions, moving is also being divided by the current scale.
-		/// </summary>
+		public static void SetZoom(float value)
+		{
+			CurrentZoom = value;
+			Changed = true;
+		}
+
 		public static void Translate(int x, int y, int z)
 		{
 			var speed = MovementSpeed;
@@ -63,10 +65,16 @@ namespace StarSystemSimulator.Graphics
 
 		public static void Rotate(float dx, float dy)
 		{
-			const float speed = 0.001f;
-			EulerRotation.X += dy * speed;
-			EulerRotation.Z += dx * speed;
+			EulerRotation.X += dy * RotationSpeed;
+			EulerRotation.Z += dx * RotationSpeed;
 			rotation = Quaternion.FromEulerAngles(EulerRotation);
+
+			Changed = true;
+		}
+
+		public static void Zoom(float value)
+		{
+			CurrentZoom += value * ZoomSpeed;
 
 			Changed = true;
 		}
@@ -85,8 +93,8 @@ namespace StarSystemSimulator.Graphics
 			Changed = false;
 
 			var rotMatrix = Matrix4.CreateFromQuaternion(rotation);
-			var loc1Matrix = Matrix4.CreateTranslation(new Vector3(0, 0, Location.Z));
-			var loc2Matrix = Matrix4.CreateTranslation(new Vector3(-Location.X, -Location.Y, 0));
+			var loc1Matrix = Matrix4.CreateTranslation(new Vector3(0, 0, CurrentZoom));
+			var loc2Matrix = Matrix4.CreateTranslation(-Location);
 			var matrix = Matrix4.CreatePerspectiveFieldOfView(0.75f, Ratio, 0.1f, 200f);
 
 			CameraMatrix = loc2Matrix * rotMatrix * loc1Matrix * matrix;

@@ -238,7 +238,7 @@ namespace StarSystemSimulator
 			if (ImGui.IsWindowHovered(ImGuiHoveredFlags.AnyWindow))
 				return;
 
-			Camera.Translate(0, 0, (int)(e.OffsetY * 32));
+			Camera.Zoom(e.OffsetY);
 		}
 
 		protected override void OnTextInput(TextInputEventArgs e)

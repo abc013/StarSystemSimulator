@@ -166,16 +166,16 @@ namespace StarSystemSimulator.Graphics
 			}
 			if (ImGui.CollapsingHeader("Viewport settings"))
 			{
-				var posChanged = false;
-				var x = Camera.Location.X;
-				var y = Camera.Location.Y;
-				var z = Camera.Location.Z;
-
 				ImGui.Text("Location");
-				helpButton("Hotkeys: [Arrows, Mouse wheel]");
+				helpButton("Hotkeys: [Arrows]");
 
+				var posChanged = false;
+
+				var x = Camera.Location.X;
 				posChanged |= ImGui.InputFloat("X", ref x, Camera.MovementSpeed, Camera.MovementSpeed * 5);
+				var y = Camera.Location.Y;
 				posChanged |= ImGui.InputFloat("Y", ref y, Camera.MovementSpeed, Camera.MovementSpeed * 5);
+				var z = Camera.Location.Z;
 				posChanged |= ImGui.InputFloat("Z", ref z, Camera.MovementSpeed, Camera.MovementSpeed * 5);
 
 				if (posChanged)
@@ -190,16 +190,16 @@ namespace StarSystemSimulator.Graphics
 
 				ImGui.NewLine();
 
-				var rotChanged = false;
-				var rx = Camera.EulerRotation.X;
-				var ry = Camera.EulerRotation.Y;
-				var rz = Camera.EulerRotation.Z;
-
 				ImGui.Text("Rotation");
 				helpButton("Uses: [Pressed mouse wheel + mouse movement]");
 
+				var rotChanged = false;
+
+				var rx = Camera.EulerRotation.X;
 				rotChanged |= ImGui.InputFloat("rX", ref rx, Camera.RotationSpeed, Camera.RotationSpeed * 5);
+				var ry = Camera.EulerRotation.Y;
 				rotChanged |= ImGui.InputFloat("rY", ref ry, Camera.RotationSpeed, Camera.RotationSpeed * 5);
+				var rz = Camera.EulerRotation.Z;
 				rotChanged |= ImGui.InputFloat("rZ", ref rz, Camera.RotationSpeed, Camera.RotationSpeed * 5);
 
 				if (rotChanged)
@@ -208,6 +208,20 @@ namespace StarSystemSimulator.Graphics
 				ImGui.Text("Camera Rotation Speed");
 				helpButton("Determines how fast the viewport is rotated around.");
 				ImGui.SliderFloat("R-Speed", ref Settings.CameraRotationSpeed, 0.001f, .1f, "%.3f");
+
+				ImGui.NewLine();
+
+				var zoom = Camera.CurrentZoom;
+
+				ImGui.Text("Zoom");
+				helpButton("Uses: [Mouse wheel]");
+
+				if (ImGui.InputFloat("Zoom", ref zoom, Camera.ZoomSpeed, Camera.ZoomSpeed * 5))
+					Camera.SetZoom(zoom);
+
+				ImGui.Text("Camera Zoom Speed");
+				helpButton("Determines how fast the viewport can zoom.");
+				ImGui.SliderFloat("Z-Speed", ref Settings.CameraZoomSpeed, 0.01f, 1f, "%.2f");
 			}
 		
 			lastMS.Enqueue(lastms);
