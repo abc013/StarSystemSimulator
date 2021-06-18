@@ -70,10 +70,13 @@ namespace StarSystemSimulator
 					continue;
 
 				var diff = location - obj.Location;
-				var dist = System.Math.Sqrt(diff.X * (double)diff.X + diff.Y * (double)diff.Y + diff.Z * (double)diff.Z);
-				var gravitation = -(obj.Mass * Constants.GConst / (dist * dist * dist));
+				var dist = diff.Length;
+				var gravitation = (float)(obj.Mass * Constants.GConst / (dist * dist * dist));
 
-				acceleration += new Vector3((float)(diff.X * gravitation), (float)(diff.Y * gravitation), (float)(diff.Z * gravitation));
+				if (gravitation < 0.000001f)
+					continue;
+
+				acceleration += diff * -gravitation;
 			}
 		}
 

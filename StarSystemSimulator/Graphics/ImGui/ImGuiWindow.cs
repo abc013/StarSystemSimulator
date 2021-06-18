@@ -14,7 +14,8 @@ namespace StarSystemSimulator.Graphics
 		bool firstTick = true;
 		bool showDialog;
 
-		readonly Queue<float> lastMS = new Queue<float>();
+		readonly Queue<float> lastTickMS = new Queue<float>();
+		readonly Queue<float> lastRenderMS = new Queue<float>();
 		readonly Queue<float> lastVertexBufferSize = new Queue<float>();
 		readonly Queue<float> lastIndexBufferSize = new Queue<float>();
 
@@ -26,7 +27,7 @@ namespace StarSystemSimulator.Graphics
 			showDialog = Settings.ShowWelcomeDialog;
 		}
 
-		public void ShowWindow(long lastms)
+		public void ShowWindow(long lastrenderms, long lasttickms)
 		{
 			if (firstTick && Settings.AutoResizeWindow)
 			{
@@ -191,7 +192,7 @@ namespace StarSystemSimulator.Graphics
 				ImGui.NewLine();
 
 				ImGui.Text("Rotation");
-				helpButton("Uses: [Pressed mouse wheel + mouse movement]");
+				helpButton("Uses: [Left mouse click + mouse movement]");
 
 				var rotChanged = false;
 
@@ -224,9 +225,13 @@ namespace StarSystemSimulator.Graphics
 				ImGui.SliderFloat("Z-Speed", ref Settings.CameraZoomSpeed, 0.01f, 1f, "%.2f");
 			}
 		
-			lastMS.Enqueue(lastms);
-			if (lastMS.Count > 300)
-				lastMS.Dequeue();
+			lastRenderMS.Enqueue(lastrenderms);
+			if (lastRenderMS.Count > 300)
+				lastRenderMS.Dequeue();
+
+			lastTickMS.Enqueue(lasttickms);
+			if (lastTickMS.Count > 300)
+				lastTickMS.Dequeue();
 
 			if (controller.BufferChanged)
 			{
@@ -237,17 +242,21 @@ namespace StarSystemSimulator.Graphics
 			if (ImGui.CollapsingHeader("Debug"))
 			{
 				ImGui.Text($"current: {localTick++} ticks");
-				ImGui.Text($"render: {lastms} ms");
 
-				var array = lastMS.ToArray();
-				ImGui.PlotLines("graph", ref array[0], array.Length);
+				ImGui.Text($"render: {lastrenderms} ms");
+				var array1 = lastRenderMS.ToArray();
+				ImGui.PlotLines("graph_render", ref array1[0], array1.Length);
+
+				ImGui.Text($"tick: {lasttickms} ms");
+				var array2 = lastTickMS.ToArray();
+				ImGui.PlotLines("graph_tick", ref array2[0], array2.Length);
 
 				ImGui.Text("buffer history");
-				var array2 = lastVertexBufferSize.ToArray();
-				ImGui.PlotHistogram("vertex", ref array2[0], array2.Length);
+				var array3 = lastVertexBufferSize.ToArray();
+				ImGui.PlotHistogram("vertex", ref array3[0], array3.Length);
 
-				var array3 = lastIndexBufferSize.ToArray();
-				ImGui.PlotHistogram("index", ref array3[0], array3.Length);
+				var array4 = lastIndexBufferSize.ToArray();
+				ImGui.PlotHistogram("index", ref array4[0], array4.Length);
 
 				if (ImGui.Button("Show welcome dialog", new System.Numerics.Vector2(ImGui.GetWindowContentRegionWidth(), 20)))
 					showDialog = true;

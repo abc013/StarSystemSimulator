@@ -14,9 +14,7 @@ namespace StarSystemSimulator.Graphics
 
 		public static void Render()
 		{
-			MasterRenderer.SetPolygonMode(PolygonMode.Line);
-			renderable.Render();
-			MasterRenderer.SetPolygonMode(PolygonMode.Fill);
+			renderable.Render(OpenTK.Graphics.OpenGL.PrimitiveType.Lines);
 		}
 
 		public static void Dispose()

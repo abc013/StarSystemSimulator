@@ -54,11 +54,6 @@ namespace StarSystemSimulator.Graphics
 			Utils.CheckError("Load");
 		}
 
-		public static void SetPolygonMode(PolygonMode mode)
-		{
-			GL.PolygonMode(MaterialFace.FrontAndBack, (OpenTK.Graphics.OpenGL.PolygonMode)mode);
-		}
-
 		public static void SetShader(string name, bool @default = false)
 		{
 			var newShader = ShaderManager.Fetch(name);

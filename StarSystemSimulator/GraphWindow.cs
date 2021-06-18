@@ -86,7 +86,7 @@ namespace StarSystemSimulator
 			IsLoaded = true;
 		}
 
-		long lastms;
+		long lastrenderms;
 		//Vector3 cursorLocation;
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace StarSystemSimulator
 			base.OnRenderFrame(args);
 			MasterRenderer.RenderFrame();
 
-			window.ShowWindow(lastms);
+			window.ShowWindow(lastrenderms, lasttickms);
 
 			// Without UI, since it isn't rendered yet
 			if (screenshot && !Settings.ScreenshotUI)
@@ -116,15 +116,19 @@ namespace StarSystemSimulator
 
 			SwapBuffers();
 
-			lastms = watch.ElapsedMilliseconds;
+			lastrenderms = watch.ElapsedMilliseconds;
 			watch.Reset();
 		}
+
+		long lasttickms;
 
 		/// <summary>
 		/// Update frame, checking for any key movements.
 		/// </summary>
 		protected override void OnUpdateFrame(FrameEventArgs args)
 		{
+			watch.Start();
+
 			base.OnUpdateFrame(args);
 
 			controller.Update(this, (float)args.Time);
@@ -141,6 +145,9 @@ namespace StarSystemSimulator
 				Camera.Translate(x, y, 0);
 				SimulationManager.ClearFollowObject();
 			}
+
+			lasttickms = watch.ElapsedMilliseconds;
+			watch.Reset();
 		}
 
 		/// <summary>
@@ -204,7 +211,7 @@ namespace StarSystemSimulator
 		/// </summary>
 		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
-			if (MouseState.IsButtonDown(MouseButton.Middle))
+			if (MouseState.IsButtonDown(MouseButton.Left))
 			{
 				var dx = e.DeltaX;
 				var dy = e.DeltaY;
