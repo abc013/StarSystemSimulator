@@ -211,6 +211,9 @@ namespace StarSystemSimulator
 		/// </summary>
 		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
+			if (ImGui.IsWindowFocused(ImGuiFocusedFlags.AnyWindow))
+				return;
+
 			if (MouseState.IsButtonDown(MouseButton.Left))
 			{
 				var dx = e.DeltaX;
