@@ -35,8 +35,8 @@ namespace StarSystemSimulator.Graphics
 			foreach (var name in FileManager.GetGraphShaderNames())
 				ShaderManager.Add(name);
 
-			SetShader("default", true);
-			SetShader("default");
+			SetDefaultShader("default");
+			SetPlanetShader("planet");
 
 			GL.ClearColor(Color4.Black);
 
@@ -54,29 +54,26 @@ namespace StarSystemSimulator.Graphics
 			Utils.CheckError("Load");
 		}
 
-		public static void SetShader(string name, bool @default = false)
+		public static void SetDefaultShader(string file)
 		{
-			var newShader = ShaderManager.Fetch(name);
-			if (newShader > 0)
-			{
-				if (@default)
-				{
-					DefaultShader = newShader;
-					DefaultManager = ShaderManager.FetchManager(DefaultShader);
-				}
-				else
-				{
-					PlanetShader = newShader;
-					PlanetManager = ShaderManager.FetchManager(PlanetShader);
-				}
-			}
-			else
-			{
-				Log.WriteInfo($"Failed to fetch shader {name}.");
+			var newShader = ShaderManager.Fetch(file);
 
-				if (@default)
-					throw new DefaultShaderException();
-			}
+			if (newShader <= 0)
+				throw new ShaderException(file);
+
+			DefaultShader = newShader;
+			DefaultManager = ShaderManager.FetchManager(DefaultShader);
+		}
+
+		public static void SetPlanetShader(string file)
+		{
+			var newShader = ShaderManager.Fetch(file);
+
+			if (newShader <= 0)
+				throw new ShaderException(file);
+
+			PlanetShader = newShader;
+			PlanetManager = ShaderManager.FetchManager(PlanetShader);
 		}
 
 		public static void RenderFrame()

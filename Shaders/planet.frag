@@ -4,8 +4,6 @@ precision highp float;
 in vec4 vs_color;
 in vec2 vs_texCoord;
 
-uniform vec2 location;
-
 out vec4 color;
 
 void main(void)

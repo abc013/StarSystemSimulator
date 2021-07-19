@@ -9,12 +9,12 @@ namespace StarSystemSimulator.Graphics
 
 		public static void Load()
 		{
-			renderable = new Renderable(getVectors(Vector3.Zero, Color4.White));
+			renderable = new Renderable(generateSphere(Color4.White, 16, 16));
 		}
 
 		public static void Render()
 		{
-			renderable.Render(OpenTK.Graphics.OpenGL.PrimitiveType.Lines);
+			renderable.Render();
 		}
 
 		public static void Dispose()
@@ -22,24 +22,86 @@ namespace StarSystemSimulator.Graphics
 			renderable.Dispose();
 		}
 
-		static Vector[] getVectors(Vector3 position, Color4 color, float size = 1f)
+		static Vector[] generateSphere(Color4 color, int numLatitudeLines, int numLongitudeLines, float radius = 1f)
 		{
-			const int horizontalLines = 12;
-			const int verticalLines = 12;
+			int numVertices = (numLatitudeLines * (numLongitudeLines + 1)) + 2;
+			Vector4[] positions = new Vector4[numVertices];
+			Vector2[] texcoords = new Vector2[numVertices];
+			// North pole.
+			positions[0] = new Vector4(0, radius, 0, 1f);
+			texcoords[0] = new Vector2(0, 1);
+			// South pole.
+			positions[numVertices - 1] = new Vector4(0, -radius, 0, 1f);
+			texcoords[numVertices - 1] = new Vector2(0, 0);
+			// +1.0f because there's a gap between the poles and the first parallel.
+			float latitudeSpacing = 1.0f / (numLatitudeLines + 1.0f);
+			float longitudeSpacing = 1.0f / numLongitudeLines;
 
-			// from https://stackoverflow.com/a/47416720
-			var vertices = new Vector[horizontalLines * verticalLines];
-
-			int index = 0;
-			for (int m = 0; m < horizontalLines; m++)
+			// start writing new vertices at position 1
+			int v = 1;
+			for (int latitude = 0; latitude < numLatitudeLines; latitude++)
 			{
-				for (int n = 0; n < verticalLines - 1; n++)
+				for (int longitude = 0; longitude <= numLongitudeLines; longitude++)
 				{
-					float x = MathF.Sin(MathF.PI * m / horizontalLines) * MathF.Cos(2 * MathF.PI * n / verticalLines);
-					float y = MathF.Sin(MathF.PI * m / horizontalLines) * MathF.Sin(2 * MathF.PI * n / verticalLines);
-					float z = MathF.Cos(MathF.PI * m / horizontalLines);
-					vertices[index++] = new Vector(new Vector4(position + new Vector3(x, y, z) * size, 1.0f), color, Vector2.Zero);
+					// Scale coordinates into the 0...1 texture coordinate range,
+					// with north at the top (y = 1).
+					texcoords[v] = new Vector2(longitude * longitudeSpacing, 1.0f - ((latitude + 1) * latitudeSpacing));
+					// Convert to spherical coordinates:
+					// theta is a longitude angle (around the equator) in radians.
+					// phi is a latitude angle (north or south of the equator).
+					float theta = texcoords[v].X * 2.0f * MathF.PI;
+					float phi = (texcoords[v].Y - 0.5f) * MathF.PI;
+					// This determines the radius of the ring of this line of latitude.
+					// It's widest at the equator, and narrows as phi increases/decreases.
+					float c = (float)MathF.Cos(phi);
+					// Usual formula for a vector in spherical coordinates.
+					// You can exchange x & z to wind the opposite way around the sphere.
+					positions[v] = new Vector4(c * MathF.Cos(theta), MathF.Sin(phi), c * MathF.Sin(theta), 1f) * radius;
+					// Proceed to the next vertex.
+					v++;
 				}
+			}
+
+			// Convert Vertices to triangles
+			int numTriangles = numLatitudeLines * numLongitudeLines * 2;
+			var vertices = new Vector[numTriangles * 3];
+
+			v = 0;
+			for (int i = 0; i < numLongitudeLines; i++)
+			{
+				vertices[v++] = new Vector(positions[0], color, texcoords[0]);
+				vertices[v++] = new Vector(positions[i + 2], color, texcoords[i + 2]);
+				vertices[v++] = new Vector(positions[i + 1], color, texcoords[i + 1]);
+			}
+
+			// Each row has one more unique vertex than there are lines of longitude,
+			// since we double a vertex at the texture seam.
+			int rowLength = numLongitudeLines + 1;
+			for (int latitude = 0; latitude < numLatitudeLines - 1; latitude++)
+			{
+				// Plus one for the pole.
+				int rowStart = (latitude * rowLength) + 1;
+				for (int longitude = 0; longitude < numLongitudeLines; longitude++)
+				{
+					int firstCorner = rowStart + longitude;
+					// First triangle of quad: Top-Left, Bottom-Left, Bottom-Right
+					vertices[v++] = new Vector(positions[firstCorner], color, texcoords[firstCorner]);
+					vertices[v++] = new Vector(positions[firstCorner + rowLength + 1], color, texcoords[firstCorner + rowLength + 1]);
+					vertices[v++] = new Vector(positions[firstCorner + rowLength], color, texcoords[firstCorner + rowLength]);
+					// Second triangle of quad: Top-Left, Bottom-Right, Top-Right
+					vertices[v++] = new Vector(positions[firstCorner], color, texcoords[firstCorner]);
+					vertices[v++] = new Vector(positions[firstCorner + 1], color, texcoords[firstCorner + 1]);
+					vertices[v++] = new Vector(positions[firstCorner + rowLength + 1], color, texcoords[firstCorner + rowLength + 1]);
+				}
+			}
+
+			int pole = positions.Length - 1;
+			int bottomRow = ((numLatitudeLines - 1) * rowLength) + 1;
+			for (int i = 0; i < numLongitudeLines; i++)
+			{
+				vertices[v++] = new Vector(positions[pole], color, texcoords[pole]);
+				vertices[v++] = new Vector(positions[bottomRow + i], color, texcoords[bottomRow + i]);
+				vertices[v++] = new Vector(positions[bottomRow + i + 1], color, texcoords[bottomRow + i + 1]);
 			}
 
 			return vertices;

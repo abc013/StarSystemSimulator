@@ -19,11 +19,11 @@ namespace StarSystemSimulator
 	/// Exception type to use when the default shader could not be loaded.
 	/// </summary>
 	[Serializable]
-	public class DefaultShaderException : Exception
+	public class ShaderException : Exception
 	{
-		public DefaultShaderException() : base("The default shader could not be loaded. Check the information.log for more details.") { }
+		public ShaderException(string shader) : base($"The shader {shader} could not be loaded. Check the information.log for more details.") { }
 
-		protected DefaultShaderException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+		protected ShaderException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 
 	/// <summary>
