@@ -2,7 +2,7 @@
 
 
 ## Dependencies
-### Framework: [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+### Framework: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [OpenTK](https://github.com/opentk/opentk)
 - [ImGui.NET](https://github.com/mellinoe/ImGui.NET)
 - System.Drawing.Common
@@ -15,7 +15,7 @@ git clone https://github.com/abc013/StarSystemSimulator.git
 ```
 
 ## Compiling
-After installing the [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1), make a local copy of this repository.
+After installing the [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0), make a local copy of this repository.
 Open a command line and navigate to the corresponding directory:
 ```sh
 cd C:/example/path/to/downloaded/directory/StarSystemSimulator/
@@ -29,7 +29,7 @@ This command should fetch the dependencies via NuGet (make sure you have an inte
 As text editors, Visual Studio 2019 or Visual Studio Code are recommended.
 
 ## Settings
-Most options can be modified in the program. However, to get access to more settings or to have the same arguments at every startup, you can create a `settings.txt` in the same directory where the executable is. To see what can be modified, please take a look at the [Settings.cs file](https://github.com/abc013/FractalPlotterStarSystemSimulator/blob/master/StarSystemSimulator/Settings.cs). An example of a `settings.txt` might be:
+Most options can be modified in the program. However, to get access to more settings or to have the same arguments at every startup, you can create a `settings.txt` in the same directory where the executable is. To see what can be modified, please take a look at the [Settings.cs file](https://github.com/abc013/StarSystemSimulator/blob/master/StarSystemSimulator/Settings.cs). An example of a `settings.txt` might be:
 ```
 Scale=1.5
 LocationX=-0.5

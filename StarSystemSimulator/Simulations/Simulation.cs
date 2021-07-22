@@ -103,6 +103,7 @@ namespace StarSystemSimulator.Simulations
 				var dist = Distance.Get("jupiter") + (random.Next(200) - 100) / 200f * Distance.Get("au");
 				var x = MathF.Sin(angle) * dist;
 				var y = MathF.Cos(angle) * dist;
+				var z = ((float)random.NextDouble() * 2f - 1f) * dist * 0.1f;
 
 				var revolution = (fullAngle * dist) / (Time.Get("jupiter_revolution") * dist / Distance.Get("jupiter"));
 				var xSpeed = MathF.Sin(angle + fullAngle / 4) * revolution;
@@ -111,7 +112,7 @@ namespace StarSystemSimulator.Simulations
 				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}, orbit A")
 				{
 					Color = Color4.DarkGray,
-					Location = new Vector3(x, y, 0),
+					Location = new Vector3(x, y, z),
 					Velocity = new Vector3(xSpeed, ySpeed, 0)
 				});
 			}
@@ -122,6 +123,7 @@ namespace StarSystemSimulator.Simulations
 				var angle = (float)(random.NextDouble() * fullAngle);
 
 				var dist = Distance.Get("jupiter") + (random.Next(200) - 100) / 200f * Distance.Get("au");
+				var x = ((float)random.NextDouble() * 2f - 1f) * dist * 0.1f;
 				var y = MathF.Sin(angle) * dist;
 				var z = MathF.Cos(angle) * dist;
 
@@ -132,7 +134,7 @@ namespace StarSystemSimulator.Simulations
 				list.Add(new MassObject(m, 4 / 100f, $"Rock {i}, orbit B")
 				{
 					Color = Color4.DarkGray,
-					Location = new Vector3(0, y, z),
+					Location = new Vector3(x, y, z),
 					Velocity = new Vector3(0, ySpeed, zSpeed)
 				});
 			}
