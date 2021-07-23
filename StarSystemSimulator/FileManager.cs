@@ -18,6 +18,7 @@ namespace StarSystemSimulator
 		public static readonly string Palettes = Current + "Palettes" + DirSeparator;
 		public static readonly string Screenhots = Current + "Screenshots" + DirSeparator;
 		public static readonly string Constants = Current + "Constants" + DirSeparator;
+		public static readonly string Systems = Current + "Systems" + DirSeparator;
 
 		public static string CheckFile(string file)
 		{

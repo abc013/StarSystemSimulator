@@ -123,7 +123,12 @@ namespace StarSystemSimulator
 		/// <summary>
 		/// Object size factor.
 		/// </summary>
-		public static float ObjectScaleFator = 1f;
+		public static float ObjectScaleFactor = 1f;
+
+		/// <summary>
+		/// System that the program starts with.
+		/// </summary>
+		public static string DefaultSystem = "default.lua";
 
 		public static void Initialize()
 		{

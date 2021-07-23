@@ -284,6 +284,7 @@ namespace StarSystemSimulator
 
 			MasterRenderer.Dispose();
 			controller.Dispose();
+			SimulationManager.Dispose();
 		}
 	}
 }

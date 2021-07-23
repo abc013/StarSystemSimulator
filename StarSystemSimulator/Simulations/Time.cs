@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using StarSystemSimulator.Scripting;
+using System.Collections.Generic;
 using System.IO;
 
 namespace StarSystemSimulator.Simulations
@@ -22,6 +23,12 @@ namespace StarSystemSimulator.Simulations
 		public static float Get(string name)
 		{
 			return dictionary[name];
+		}
+
+		public static void FillStates(LuaScriptWrapper wrapper)
+		{
+			foreach ((var key, var value) in dictionary)
+				wrapper.UpdateSingleState($"Time_{key}", value);
 		}
 	}
 }

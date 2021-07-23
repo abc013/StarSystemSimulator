@@ -11,7 +11,9 @@ namespace StarSystemSimulator.Simulations
 
 		public static void Load()
 		{
-			simulation = new Simulation();
+			simulation?.Dispose();
+
+			simulation = new Simulation(FileManager.Systems + Settings.DefaultSystem);
 		}
 
 		public static void Update()
@@ -46,6 +48,11 @@ namespace StarSystemSimulator.Simulations
 		public static void FollowObject(MassObject obj)
 		{
 			simulation.FollowedObject = obj;
+		}
+
+		public static void Dispose()
+		{
+			simulation.Dispose();
 		}
 	}
 }

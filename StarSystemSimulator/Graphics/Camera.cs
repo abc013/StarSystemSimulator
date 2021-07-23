@@ -1,4 +1,5 @@
 ﻿using OpenTK.Mathematics;
+using StarSystemSimulator.Scripting;
 
 namespace StarSystemSimulator.Graphics
 {
@@ -36,12 +37,14 @@ namespace StarSystemSimulator.Graphics
 			ResizeViewport(Settings.GraphWidth, Settings.GraphHeight);
 		}
 
+		[LuaFunction("SetViewTranslation")]
 		public static void SetTranslation(float x, float y, float z)
 		{
 			Location = new Vector3(x, y, z);
 			Changed = true;
 		}
 
+		[LuaFunction("SetViewRotation")]
 		public static void SetRotation(float x, float y, float z)
 		{
 			EulerRotation = new Vector3(x, y, z);
@@ -49,12 +52,14 @@ namespace StarSystemSimulator.Graphics
 			Changed = true;
 		}
 
+		[LuaFunction("SetViewZoom")]
 		public static void SetZoom(float value)
 		{
 			CurrentZoom = value;
 			Changed = true;
 		}
 
+		[LuaFunction("TranslateView")]
 		public static void Translate(int x, int y, int z)
 		{
 			var speed = MovementSpeed;
@@ -63,6 +68,7 @@ namespace StarSystemSimulator.Graphics
 			Changed = true;
 		}
 
+		[LuaFunction("RotateView")]
 		public static void Rotate(float dx, float dy)
 		{
 			EulerRotation.X += dy * RotationSpeed;
@@ -72,6 +78,7 @@ namespace StarSystemSimulator.Graphics
 			Changed = true;
 		}
 
+		[LuaFunction("ZoomView")]
 		public static void Zoom(float value)
 		{
 			CurrentZoom += value * ZoomSpeed;

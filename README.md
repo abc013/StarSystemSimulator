@@ -5,6 +5,7 @@
 ### Framework: [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [OpenTK](https://github.com/opentk/opentk)
 - [ImGui.NET](https://github.com/mellinoe/ImGui.NET)
+- [Nlua](http://nlua.org/)
 - System.Drawing.Common
 
 ## Download

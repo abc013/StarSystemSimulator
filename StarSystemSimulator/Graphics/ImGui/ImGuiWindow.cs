@@ -54,7 +54,7 @@ namespace StarSystemSimulator.Graphics
 					SimulationManager.SizeSettingsChanged();
 
 				ImGui.Text("Object size scaling factor");
-				if (ImGui.SliderFloat("Size", ref Settings.ObjectScaleFator, 0.01f, 10f, "%.2f"))
+				if (ImGui.SliderFloat("Size", ref Settings.ObjectScaleFactor, 0.01f, 10f, "%.2f"))
 					SimulationManager.SizeSettingsChanged();
 
 				if (ImGui.TreeNode("Objects"))
