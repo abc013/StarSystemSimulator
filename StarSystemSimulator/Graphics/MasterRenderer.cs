@@ -42,6 +42,8 @@ namespace StarSystemSimulator.Graphics
 
 			GL.Enable(EnableCap.Blend);
 			GL.Enable(EnableCap.DepthTest);
+			GL.Enable(EnableCap.CullFace);
+			GL.CullFace(CullFaceMode.Back);
 			GL.LineWidth(2f);
 
 			PointRenderable.Load();
@@ -81,6 +83,10 @@ namespace StarSystemSimulator.Graphics
 			Camera.CalculateMatrix();
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+			GL.Enable(EnableCap.CullFace);
+			GL.CullFace(CullFaceMode.Back);
+			GL.LineWidth(2f);
 
 			GL.UseProgram(PlanetShader);
 			PlanetManager.Uniform();
