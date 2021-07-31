@@ -10,6 +10,9 @@ namespace StarSystemSimulator.Graphics
 		readonly GraphWindow window;
 		readonly ImGuiController controller;
 
+		readonly string[] scripts;
+		int currentScript;
+
 		int localTick;
 		bool firstTick = true;
 		bool showDialog;
@@ -23,6 +26,13 @@ namespace StarSystemSimulator.Graphics
 		{
 			this.window = window;
 			this.controller = controller;
+
+			scripts = FileManager.GetScriptNames().ToArray();
+			for (int i = 0; i < scripts.Length; i++)
+			{
+				if (scripts[i] == Settings.DefaultSystem)
+					currentScript = i;
+			}
 
 			showDialog = Settings.ShowWelcomeDialog;
 		}
@@ -43,6 +53,26 @@ namespace StarSystemSimulator.Graphics
 
 			ImGui.Spacing();
 
+			if (ImGui.CollapsingHeader("Load simulation"))
+			{
+				if (ImGui.TreeNode("Load Simulation script"))
+				{
+					ImGui.TextWrapped("Select a simulation script from the list below.");
+					helpButton("Change the current simulation by clicking on one of the names below." +
+						"\nThe scripts can be found in the 'Systems' directory.");
+
+					if (ImGui.ListBox("Scripts", ref currentScript, scripts, scripts.Length))
+						SimulationManager.Load(scripts[currentScript]);
+
+					ImGui.TreePop();
+				}
+
+				if (ImGui.TreeNode("Load Simulation data"))
+				{
+					ImGui.TextColored(new System.Numerics.Vector4(1f, 0, 0, 1f), "Simulation data is not yet implemented.");
+					ImGui.TreePop();
+				}
+			}
 			if (ImGui.CollapsingHeader("Mass object settings"))
 			{
 				ImGui.Checkbox("Draw trails", ref Settings.DrawTrails);
@@ -120,6 +150,9 @@ namespace StarSystemSimulator.Graphics
 				ImGui.Text("Simulation Speed");
 				helpButton("Determines how fast the simulation is.");
 				ImGui.SliderFloat("S-Speed", ref Settings.TimeStep, 0.00001f, .01f, "%.5f");
+
+				if (ImGui.Button("Reset Simulation", new System.Numerics.Vector2(ImGui.GetWindowContentRegionWidth(), 20)))
+					SimulationManager.Load(scripts[currentScript]);
 			}
 			if (ImGui.CollapsingHeader("Point settings"))
 			{

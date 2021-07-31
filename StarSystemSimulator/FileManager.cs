@@ -73,6 +73,24 @@ namespace StarSystemSimulator
 			return results;
 		}
 
+		public static List<string> GetScriptNames()
+		{
+			var files = Directory.GetFiles(Systems).Where(f => f.EndsWith(".lua")).ToList();
+
+			var results = new List<string>();
+
+			foreach (var file in files)
+			{
+				var index = file.LastIndexOf('\\') + 1;
+				var name = file.Substring(index);
+
+				if (name != "sandbox.lua" && name != "wrapper.lua")
+					results.Add(name);
+			}
+
+			return results;
+		}
+
 		public static void SaveScreenshot(byte[] data, int width, int height)
 		{
 			if (!Directory.Exists(Screenhots))

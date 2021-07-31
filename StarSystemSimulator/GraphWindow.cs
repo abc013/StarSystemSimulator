@@ -66,7 +66,7 @@ namespace StarSystemSimulator
 		{
 			base.OnLoad();
 			MasterRenderer.Load();
-			SimulationManager.Load();
+			SimulationManager.Load(Settings.DefaultSystem);
 
 			if (Settings.UseSystemUIScaling)
 			{

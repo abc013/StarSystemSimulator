@@ -9,11 +9,10 @@ namespace StarSystemSimulator.Simulations
 
 		static Simulation simulation;
 
-		public static void Load()
+		public static void Load(string system)
 		{
 			simulation?.Dispose();
-
-			simulation = new Simulation(FileManager.Systems + Settings.DefaultSystem);
+			simulation = new Simulation(FileManager.Systems + system);
 		}
 
 		public static void Update()
