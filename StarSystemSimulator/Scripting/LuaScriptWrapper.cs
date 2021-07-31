@@ -10,13 +10,16 @@ namespace StarSystemSimulator.Scripting
 	{
 		readonly Lua luaState;
 		readonly LuaFunction tick;
+		readonly LuaFunction register;
 		
 		public LuaScriptWrapper(Simulation simulation, string file)
 		{
 			luaState = new Lua();
-			luaState.DoString(@"import = function () end");
-			luaState.DoString(@"init = function () end");
-			luaState.DoString(@"tick = function () end");
+
+			var wrapperFile = FileManager.Systems + "wrapper.lua";
+			luaState.DoFile(wrapperFile);
+
+			register = luaState["registerGlobal"] as LuaFunction;
 
 			registerFunctions(typeof(LuaScriptWrapper));
 			registerFunctions(typeof(LuaFunctions));
@@ -27,7 +30,8 @@ namespace StarSystemSimulator.Scripting
 			Mass.FillStates(this);
 			Time.FillStates(this);
 
-			luaState.DoFile(file);
+			using var load = luaState["loadScript"] as LuaFunction;
+			load.Call(System.IO.File.ReadAllText(file));
 
 			tick = luaState["tick"] as LuaFunction;
 		}
@@ -39,15 +43,17 @@ namespace StarSystemSimulator.Scripting
 				var attribute = method.GetCustomAttributes(false).FirstOrDefault(c => c is LuaFunctionAttribute);
 
 				if (attribute != null)
-					luaState.RegisterFunction(((LuaFunctionAttribute)attribute).FunctionName, obj, method);
+				{
+					var functionName = ((LuaFunctionAttribute)attribute).FunctionName;
+					register.Call(functionName, luaState.RegisterFunction(functionName, obj, method));
+				}
 			}
 		}
 
 		public void Load()
 		{
-			var init = luaState["init"] as LuaFunction;
+			using var init = luaState["init"] as LuaFunction;
 			init.Call();
-			init.Dispose();
 		}
 
 		public void Tick()
@@ -64,27 +70,25 @@ namespace StarSystemSimulator.Scripting
 
 		public void UpdateSingleState(string name, object value)
 		{
-			luaState.Push(value);
-			luaState.State.SetGlobal(name);
+			register.Call(name, value);
 		}
 
 		public void Dispose()
 		{
 			tick.Dispose();
+			register.Dispose();
 		}
 
 		[LuaFunction("DebugMessage")]
 		public static void DebugMessage(object message)
 		{
 			Log.WriteInfo($"(script)->{message}");
-			Graphics.Camera.Translate(1, 0, 0);
 		}
 
 		[LuaFunction("ErrorMessage")]
 		public static void ErrorMessage(object error)
 		{
 			Log.WriteException($"(script)->{error}");
-			Graphics.Camera.Translate(1, 0, 0);
 		}
 	}
 }

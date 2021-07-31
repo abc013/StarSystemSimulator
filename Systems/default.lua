@@ -1,4 +1,4 @@
-function init()
+setInit(function()
 	AddObject(Mass_sun, 0.3, 'Sun', ColorFromRGB(1, 1, 1))
 	
 	AddObject(Mass_earth, 0.02, 'Earth', ColorFromName('BlueViolet'), Vector(Distance_au, 0, 0), Vector(0, Distance_au * math.pi * 2, 0))
@@ -8,8 +8,8 @@ function init()
 	AddObject(Mass_saturn, 0.07, 'Saturn', ColorFromName('Brown'), Vector(Distance_saturn, 0, 0), Vector(0, Distance_saturn * math.pi * 2 / Time_saturn_revolution, 0))
 	
 	SetViewZoom(-16)
-end
+end)
 
-function tick()
+setTick(function()
 	--RotateView(0.02, 0.04)
-end
+end)

@@ -1,4 +1,4 @@
-function init()
+setInit(function()
 	AddObject(Mass_sun * 1.4, 0.5, 'Distractor', ColorFromName('WhiteSmoke'), Vector(75 * Distance_au, -50 * Distance_au, 0), Vector(-4 * Distance_au, 3 * Distance_au, 0))
 	AddObject(Mass_sun, 0.4, 'Sun', ColorFromName('Yellow'))
 
@@ -38,4 +38,4 @@ function init()
 	end
 
 	SetViewZoom(-16)
-end
+end)
