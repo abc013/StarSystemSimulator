@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StarSystemSimulator
 {
-	public class Settings
+	public static class Settings
 	{
 		/// <summary>
 		/// Height of the default window bar (estimated).
@@ -132,21 +132,12 @@ namespace StarSystemSimulator
 
 		public static void Initialize()
 		{
-			// Use a settings class to gain access to reflection methods, making assigning variables much easier
-			new Settings();
-
-			// Translate the Hex-string into a color
-			Utils.StandardColor = System.Drawing.ColorTranslator.FromHtml(StandardColor);
-		}
-
-		Settings()
-		{
 			var file = FileManager.CheckFile("settings.txt");
 
 			if (string.IsNullOrEmpty(file))
 				return;
 
-			var fields = GetType().GetFields().Where(f => f.IsStatic && f.IsPublic);
+			var fields = typeof(Settings).GetFields().Where(f => f.IsStatic && f.IsPublic);
 
 			using var reader = new StreamReader(file);
 
@@ -165,8 +156,11 @@ namespace StarSystemSimulator
 				if (field == null)
 					throw new InvalidSettingsException($"Unable to load settings key '{name}' because it does not exist (value: {value}).");
 
-				field.SetValue(this, convert(field.FieldType, name, value));
+				field.SetValue(null, convert(field.FieldType, name, value));
 			}
+
+			// Translate the Hex-string into a color
+			Utils.StandardColor = System.Drawing.ColorTranslator.FromHtml(StandardColor);
 		}
 
 		static object convert(Type type, string key, string value)

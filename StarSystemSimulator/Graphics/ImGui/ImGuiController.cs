@@ -14,7 +14,7 @@ namespace StarSystemSimulator.Graphics
 	/// Manages input for ImGui and handles rendering ImGui's DrawLists with Veldrid.
 	/// Taken from https://github.com/NogginBops/ImGui.NET_OpenTK_Sample
 	/// </summary>
-	public class ImGuiController : IDisposable
+	public sealed class ImGuiController : IDisposable
 	{
 		public bool BufferChanged = true;
 		public int VertexBufferSize => vertexBufferSize;
