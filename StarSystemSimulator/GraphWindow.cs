@@ -94,6 +94,9 @@ namespace StarSystemSimulator
 		/// </summary>
 		protected override void OnRenderFrame(FrameEventArgs args)
 		{
+			if (IsExiting)
+				return;
+
 			watch.Start();
 
 			//if (Camera.Changed)
@@ -127,6 +130,9 @@ namespace StarSystemSimulator
 		/// </summary>
 		protected override void OnUpdateFrame(FrameEventArgs args)
 		{
+			if (IsExiting)
+				return;
+
 			watch.Start();
 
 			base.OnUpdateFrame(args);
