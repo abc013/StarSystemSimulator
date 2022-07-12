@@ -14,8 +14,7 @@ namespace StarSystemSimulator
 	{
 		public static readonly char DirSeparator = Path.DirectorySeparatorChar;
 		public static readonly string Current = Directory.GetCurrentDirectory() + DirSeparator;
-		public static readonly string GraphShaders = Current + "Shaders" + DirSeparator;
-		public static readonly string Palettes = Current + "Palettes" + DirSeparator;
+		public static readonly string Shaders = Current + "Shaders" + DirSeparator;
 		public static readonly string Screenhots = Current + "Screenshots" + DirSeparator;
 		public static readonly string Constants = Current + "Constants" + DirSeparator;
 		public static readonly string Systems = Current + "Systems" + DirSeparator;
@@ -57,16 +56,16 @@ namespace StarSystemSimulator
 
 		public static List<string> GetGraphShaderNames()
 		{
-			var files = Directory.GetFiles(GraphShaders).Where(f => f.EndsWith(".frag")).ToList();
+			var files = Directory.GetFiles(Shaders).Where(f => f.EndsWith(".frag")).ToList();
 
 			var results = new List<string>();
 
 			foreach (var file in files)
 			{
-				var index = file.LastIndexOf('\\') + 1;
+				var index = file.LastIndexOf(DirSeparator) + 1;
 				var name = file.Substring(index, file.Length - index - 5);
 
-				if (File.Exists(GraphShaders + name + ".vert"))
+				if (File.Exists(Shaders + name + ".vert"))
 					results.Add(name);
 			}
 
@@ -81,8 +80,8 @@ namespace StarSystemSimulator
 
 			foreach (var file in files)
 			{
-				var index = file.LastIndexOf('\\') + 1;
-				var name = file.Substring(index);
+				var index = file.LastIndexOf(DirSeparator) + 1;
+				var name = file[index..];
 
 				if (name != "sandbox.lua" && name != "wrapper.lua")
 					results.Add(name);
