@@ -26,12 +26,15 @@ namespace StarSystemSimulator.Graphics
 		{
 			int numVertices = (numLatitudeLines * (numLongitudeLines + 1)) + 2;
 			Vector4[] positions = new Vector4[numVertices];
+			Vector4[] normals = new Vector4[numVertices];
 			Vector2[] texcoords = new Vector2[numVertices];
 			// North pole.
 			positions[0] = new Vector4(0, radius, 0, 1f);
+			normals[0] = new Vector4(0, 1, 0, 1f);
 			texcoords[0] = new Vector2(0, 1);
 			// South pole.
 			positions[numVertices - 1] = new Vector4(0, -radius, 0, 1f);
+			normals[numVertices - 1] = new Vector4(0, -1, 0, 1f);
 			texcoords[numVertices - 1] = new Vector2(0, 0);
 			// +1.0f because there's a gap between the poles and the first parallel.
 			float latitudeSpacing = 1.0f / (numLatitudeLines + 1.0f);
@@ -56,7 +59,8 @@ namespace StarSystemSimulator.Graphics
 					float c = (float)MathF.Cos(phi);
 					// Usual formula for a vector in spherical coordinates.
 					// You can exchange x & z to wind the opposite way around the sphere.
-					positions[v] = new Vector4(c * MathF.Cos(theta), MathF.Sin(phi), c * MathF.Sin(theta), 1f) * radius;
+					normals[v] = new Vector4(c * MathF.Cos(theta), MathF.Sin(phi), c * MathF.Sin(theta), 1f);
+					positions[v] = normals[v] * radius;
 					// Proceed to the next vertex.
 					v++;
 				}
@@ -69,9 +73,9 @@ namespace StarSystemSimulator.Graphics
 			v = 0;
 			for (int i = 0; i < numLongitudeLines; i++)
 			{
-				vertices[v++] = new Vector(positions[0], color, texcoords[0]);
-				vertices[v++] = new Vector(positions[i + 2], color, texcoords[i + 2]);
-				vertices[v++] = new Vector(positions[i + 1], color, texcoords[i + 1]);
+				vertices[v++] = new Vector(positions[0], normals[0], color, texcoords[0]);
+				vertices[v++] = new Vector(positions[i + 2], normals[i + 2], color, texcoords[i + 2]);
+				vertices[v++] = new Vector(positions[i + 1], normals[i + 1], color, texcoords[i + 1]);
 			}
 
 			// Each row has one more unique vertex than there are lines of longitude,
@@ -85,13 +89,13 @@ namespace StarSystemSimulator.Graphics
 				{
 					int firstCorner = rowStart + longitude;
 					// First triangle of quad: Top-Left, Bottom-Left, Bottom-Right
-					vertices[v++] = new Vector(positions[firstCorner], color, texcoords[firstCorner]);
-					vertices[v++] = new Vector(positions[firstCorner + rowLength + 1], color, texcoords[firstCorner + rowLength + 1]);
-					vertices[v++] = new Vector(positions[firstCorner + rowLength], color, texcoords[firstCorner + rowLength]);
+					vertices[v++] = new Vector(positions[firstCorner], normals[firstCorner], color, texcoords[firstCorner]);
+					vertices[v++] = new Vector(positions[firstCorner + rowLength + 1], normals[firstCorner + rowLength + 1], color, texcoords[firstCorner + rowLength + 1]);
+					vertices[v++] = new Vector(positions[firstCorner + rowLength], normals[firstCorner + rowLength], color, texcoords[firstCorner + rowLength]);
 					// Second triangle of quad: Top-Left, Bottom-Right, Top-Right
-					vertices[v++] = new Vector(positions[firstCorner], color, texcoords[firstCorner]);
-					vertices[v++] = new Vector(positions[firstCorner + 1], color, texcoords[firstCorner + 1]);
-					vertices[v++] = new Vector(positions[firstCorner + rowLength + 1], color, texcoords[firstCorner + rowLength + 1]);
+					vertices[v++] = new Vector(positions[firstCorner], normals[firstCorner], color, texcoords[firstCorner]);
+					vertices[v++] = new Vector(positions[firstCorner + 1], normals[firstCorner + 1], color, texcoords[firstCorner + 1]);
+					vertices[v++] = new Vector(positions[firstCorner + rowLength + 1], normals[firstCorner + rowLength + 1], color, texcoords[firstCorner + rowLength + 1]);
 				}
 			}
 
@@ -99,9 +103,9 @@ namespace StarSystemSimulator.Graphics
 			int bottomRow = ((numLatitudeLines - 1) * rowLength) + 1;
 			for (int i = 0; i < numLongitudeLines; i++)
 			{
-				vertices[v++] = new Vector(positions[pole], color, texcoords[pole]);
-				vertices[v++] = new Vector(positions[bottomRow + i], color, texcoords[bottomRow + i]);
-				vertices[v++] = new Vector(positions[bottomRow + i + 1], color, texcoords[bottomRow + i + 1]);
+				vertices[v++] = new Vector(positions[pole], normals[pole], color, texcoords[pole]);
+				vertices[v++] = new Vector(positions[bottomRow + i], normals[bottomRow + i], color, texcoords[bottomRow + i]);
+				vertices[v++] = new Vector(positions[bottomRow + i + 1], normals[bottomRow + i + 1], color, texcoords[bottomRow + i + 1]);
 			}
 
 			return vertices;

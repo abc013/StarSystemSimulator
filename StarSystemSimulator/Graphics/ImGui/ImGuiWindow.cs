@@ -79,6 +79,9 @@ namespace StarSystemSimulator.Graphics
 
 				var before = Settings.SizeBasedOnMass;
 
+				ImGui.Text("Make all objects clearly visible");
+				ImGui.Checkbox("Highlight", ref Settings.HighlightAll);
+
 				ImGui.Text("Make object size based on mass");
 				if (ImGui.Checkbox("Mass-size", ref Settings.SizeBasedOnMass))
 					SimulationManager.SizeSettingsChanged();
@@ -116,6 +119,16 @@ namespace StarSystemSimulator.Graphics
 							var c = new System.Numerics.Vector4(obj.Color.R, obj.Color.G, obj.Color.B, obj.Color.A);
 							if (ImGui.ColorEdit4("Col", ref c))
 								obj.Color = new Color4(c.X, c.Y, c.Z, c.W);
+
+							if (Settings.HighlightAll)
+								ImGui.BeginDisabled();
+							ImGui.Text($"Emission");
+							helpButton("This option is only available if 'Highlight' is set to false.");
+							var e = obj.EmissionStrength;
+							if (ImGui.SliderFloat("Emi", ref e, 0, 1))
+								obj.EmissionStrength = e;
+							if (Settings.HighlightAll)
+								ImGui.EndDisabled();
 
 							if (ImGui.Button("Jump"))
 							{

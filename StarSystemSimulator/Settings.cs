@@ -121,6 +121,11 @@ namespace StarSystemSimulator
 		public static bool SizeBasedOnMass = false;
 
 		/// <summary>
+		/// Set emission to 100% for all objects.
+		/// </summary>
+		public static bool HighlightAll = false;
+
+		/// <summary>
 		/// Object size factor.
 		/// </summary>
 		public static float ObjectScaleFactor = 1f;

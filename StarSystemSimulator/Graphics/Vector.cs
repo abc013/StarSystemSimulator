@@ -11,15 +11,17 @@ namespace StarSystemSimulator.Graphics
 		/// <summary>
 		/// Size of the vector in bytes.
 		/// </summary>
-		public const int Size = 4 * (4 + 4 + 2);
+		public const int Size = 4 * (4 + 4 + 4 + 2);
 
 		public readonly Vector4 Position;
+		public readonly Vector4 Normal;
 		public readonly Color4 Color;
 		public readonly Vector2 Coordinate;
 
-		public Vector(Vector4 position, Color4 color, Vector2 coordinate)
+		public Vector(Vector4 position, Vector4 normal, Color4 color, Vector2 coordinate)
 		{
 			Position = position;
+			Normal = normal;
 			Color = color;
 			Coordinate = coordinate;
 		}

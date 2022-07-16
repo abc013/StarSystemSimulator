@@ -10,10 +10,11 @@ namespace StarSystemSimulator.Graphics
 	public class UniformManager
 	{
 		public const int PositionID = 0;
-		public const int ColorID = 1;
-		public const int TexCoordID = 2;
+		public const int NormalID = 1;
+		public const int ColorID = 2;
+		public const int TexCoordID = 3;
 
-		const int uniformCount = 4;
+		const int uniformCount = 5;
 
 		readonly int[] ids;
 
@@ -29,11 +30,13 @@ namespace StarSystemSimulator.Graphics
 			ids[1] = GL.GetUniformLocation(programID, "projection");
 			ids[2] = GL.GetUniformLocation(programID, "modelView");
 			ids[3] = GL.GetUniformLocation(programID, "modelColor");
+			ids[4] = GL.GetUniformLocation(programID, "modelEmissive");
 
 			Utils.CheckError("UniformManager1 " + name);
 
 			// Set attribute locations to the given ones.
 			GL.BindAttribLocation(programID, PositionID, "position");
+			GL.BindAttribLocation(programID, NormalID, "normal");
 			GL.BindAttribLocation(programID, ColorID, "color");
 			GL.BindAttribLocation(programID, TexCoordID, "texCoord");
 
@@ -84,6 +87,17 @@ namespace StarSystemSimulator.Graphics
 		{
 			if (ids[3] >= 0)
 				GL.Uniform4(ids[3], color);
+		}
+
+		/// <summary>
+		/// Push the uniform emission strength into GPU memory to their location.
+		/// 
+		/// The strength will be multiplied with the color given in the Vector structure.
+		/// </summary>
+		public void UniformEmissionStrength(float strength)
+		{
+			if (ids[4] >= 0)
+				GL.Uniform1(ids[4], strength);
 		}
 	}
 }

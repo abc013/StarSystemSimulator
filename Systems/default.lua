@@ -1,5 +1,5 @@
 setInit(function()
-	AddObject(Mass_sun, 0.3, 'Sun', ColorFromRGB(1, 1, 1))
+	AddObject(Mass_sun, 0.3, 'Sun', ColorFromRGB(1, 1, 1), 1)
 	
 	AddObject(Mass_earth, 0.02, 'Earth', ColorFromName('BlueViolet'), Vector(Distance_au, 0, 0), Vector(0, Distance_au * math.pi * 2, 0))
 	AddObject(Mass_earth, 0.001, 'Moon', ColorFromName('DarkGray'), Vector(Distance_au, Distance_earth_radius + Distance_moon_to_earth, 0), Vector((365 / 29) * 2 * math.pi * (Distance_earth_radius + Distance_moon_to_earth), Distance_au * math.pi * 2, 0))

@@ -1,6 +1,6 @@
 setInit(function()
-	AddObject(Mass_sun * 1.4, 0.5, 'Distractor', ColorFromName('WhiteSmoke'), Vector(75 * Distance_au, -50 * Distance_au, 0), Vector(-4 * Distance_au, 3 * Distance_au, 0))
-	AddObject(Mass_sun, 0.4, 'Sun', ColorFromName('Yellow'))
+	AddObject(Mass_sun * 1.4, 0.5, 'Distractor', ColorFromName('WhiteSmoke'), 1, Vector(75 * Distance_au, -50 * Distance_au, 0), Vector(-4 * Distance_au, 3 * Distance_au, 0))
+	AddObject(Mass_sun, 0.4, 'Sun', ColorFromName('Yellow'), 1)
 
 	local mass = 0.005 * Mass_moon
 	local fullAngle = 2 * math.pi

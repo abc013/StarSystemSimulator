@@ -13,6 +13,7 @@ namespace StarSystemSimulator
 		readonly Vector3[] lastLocations = new Vector3[150];
 
 		public Color4 Color;
+		public float EmissionStrength;
 
 		// planets are defined in following units
 		// mass: SOL_MASS
@@ -112,18 +113,19 @@ namespace StarSystemSimulator
 		public void CalculateMatrix()
 		{
 			var scale = Matrix4.CreateScale((Settings.SizeBasedOnMass ? sizeBasedOnMass : size) * Settings.ObjectScaleFactor);
-			var rotX = Matrix4.CreateRotationX(Velocity.X);
-			var rotY = Matrix4.CreateRotationX(Velocity.X);
-			var rotZ = Matrix4.CreateRotationX(Velocity.X);
+			//var rotX = Matrix4.CreateRotationX(Velocity.X);
+			//var rotY = Matrix4.CreateRotationX(Velocity.X);
+			//var rotZ = Matrix4.CreateRotationX(Velocity.X);
 			var loc = Matrix4.CreateTranslation(Location);
 
-			objectMatrix = scale * rotX * rotY * rotZ * loc;
+			objectMatrix = scale /** rotX * rotY * rotZ*/ * loc;
 		}
 
 		public void Render()
 		{
 			MasterRenderer.PlanetManager.UniformModelView(objectMatrix);
 			MasterRenderer.PlanetManager.UniformColor(Color);
+			MasterRenderer.PlanetManager.UniformEmissionStrength(Settings.HighlightAll ? 1f : EmissionStrength);
 			PlanetRenderable.Render();
 		}
 

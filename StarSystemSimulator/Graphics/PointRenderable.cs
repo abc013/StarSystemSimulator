@@ -32,16 +32,16 @@ namespace StarSystemSimulator.Graphics
 		{
 			return new[]
 			{
-				new Vector(new Vector4(position + new Vector3(-size, -size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(-size, size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(size, -size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(size, -size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(-size, size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(size, size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(-3 * size, 0, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3( 3 * size, 0, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(0, -3 * size, 0), 1.0f), color, Vector2.Zero),
-				new Vector(new Vector4(position + new Vector3(0,  3 * size, 0), 1.0f), color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(-size, -size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(-size, size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(size, -size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(size, -size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(-size, size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(size, size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(-3 * size, 0, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3( 3 * size, 0, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(0, -3 * size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
+				new Vector(new Vector4(position + new Vector3(0,  3 * size, 0), 1.0f), Vector4.Zero, color, Vector2.Zero),
 			};
 		}
 	}

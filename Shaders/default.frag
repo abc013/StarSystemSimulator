@@ -1,6 +1,7 @@
 #version 130
 precision highp float;
 
+in vec4 vs_normal;
 in vec4 vs_color;
 in vec2 vs_texCoord;
 

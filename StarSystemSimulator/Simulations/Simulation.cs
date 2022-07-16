@@ -63,11 +63,12 @@ namespace StarSystemSimulator.Simulations
 		}
 
 		[LuaFunction("AddObject")]
-		public MassObject AddObject(double mass, float size, string name, Color4 color = default, Vector3 location = default, Vector3 velocity = default, Vector3 acceleration = default)
+		public MassObject AddObject(double mass, float size, string name, Color4 color = default, float emission = 0.0f, Vector3 location = default, Vector3 velocity = default, Vector3 acceleration = default)
 		{
 			var @object = new MassObject(mass, size, name)
 			{
 				Color = color,
+				EmissionStrength = emission,
 				Location = location,
 				Velocity = velocity,
 				Acceleration = acceleration

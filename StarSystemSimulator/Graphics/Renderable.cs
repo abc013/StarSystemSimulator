@@ -29,13 +29,16 @@ namespace StarSystemSimulator.Graphics
 			ChangeBuffer(array);
 
 			GL.EnableVertexAttribArray(UniformManager.PositionID);
-			GL.VertexAttribPointer(UniformManager.PositionID, 4, VertexAttribPointerType.Float, true, Vector.Size, 0);
+			GL.VertexAttribPointer(UniformManager.PositionID, 4, VertexAttribPointerType.Float, false, Vector.Size, 0);
+
+			GL.EnableVertexAttribArray(UniformManager.NormalID);
+			GL.VertexAttribPointer(UniformManager.NormalID, 4, VertexAttribPointerType.Float, false, Vector.Size, 16);
 
 			GL.EnableVertexAttribArray(UniformManager.ColorID);
-			GL.VertexAttribPointer(UniformManager.ColorID, 4, VertexAttribPointerType.Float, true, Vector.Size, 16);
+			GL.VertexAttribPointer(UniformManager.ColorID, 4, VertexAttribPointerType.Float, false, Vector.Size, 32);
 
 			GL.EnableVertexAttribArray(UniformManager.TexCoordID);
-			GL.VertexAttribPointer(UniformManager.TexCoordID, 2, VertexAttribPointerType.Float, true, Vector.Size, 32);
+			GL.VertexAttribPointer(UniformManager.TexCoordID, 2, VertexAttribPointerType.Float, false, Vector.Size, 48);
 		}
 
 		/// <summary>
